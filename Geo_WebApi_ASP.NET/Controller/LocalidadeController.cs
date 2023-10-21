@@ -34,6 +34,18 @@ namespace Geo_WebApi_ASP.NET.Controller
             return Ok(Resposta);
         }
 
+        [HttpGet("codigo/{citycode}")]
+        public async Task<ActionResult> GetByCityCode(string citycode)
+        {
+            var Resposta = await _localidadeService.GetByCityCode(citycode);
+
+            if (Resposta is null)
+            {
+                return NotFound();
+            }
+            return Ok(Resposta);
+        }
+
         [HttpGet("cidade/{city}")]
         public async Task<ActionResult> GetByCity(string city)
         {

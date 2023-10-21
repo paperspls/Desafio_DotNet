@@ -7,17 +7,19 @@ namespace Geo_WebApi_ASP.NET.Validator
     {
         public LocalidadeValidator()
         {
-            //RuleFor(l => l.Id);
+            RuleFor(l => l.CityCode)
+                    .NotEmpty()
+                    .MinimumLength(1);
 
             RuleFor(l => l.City)
                     .NotEmpty()
-                    .MinimumLength(2)
-                    .MaximumLength(1000);
+                    .MinimumLength(1)
+                    .MaximumLength(15);
 
             RuleFor(l => l.State)
                     .NotEmpty()
-                    .MinimumLength(5)
-                    .MaximumLength(100);
+                    .MinimumLength(1)
+                    .MaximumLength(80);
         }
     }
 }

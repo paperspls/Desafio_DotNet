@@ -4,6 +4,9 @@ using Geo_WebApi_ASP.NET.Security;
 using Geo_WebApi_ASP.NET.Service;
 using Geo_WebApi_ASP.NET.Service.Implements;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using Geo_WebApi_ASP.NET.Model;
+using Geo_WebApi_ASP.NET.Validator;
 
 namespace Geo_WebApi_ASP.NET
 {
@@ -32,18 +35,18 @@ namespace Geo_WebApi_ASP.NET
                 options.UseSqlServer(connectionString)
             );
 
+            // Registrar a Validação das Entidades
+            builder.Services.AddTransient<IValidator<Localidade>, LocalidadeValidator>();
+            builder.Services.AddTransient<IValidator<User>, UserValidator>();
+
+            // Registrar as Classes de Serviço (Service)
             builder.Services.AddScoped<ILocalidadeService, LocalidadeService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
-            //validação das entidades
-            builder.Services.AddTransient<IAuthService, AuthService>();
-            //validação das interfaces
-            builder.Services.AddScoped<IUserService, UserService>();
-
-
 
             // Configuração do CORS
             builder.Services.AddCors(options => {

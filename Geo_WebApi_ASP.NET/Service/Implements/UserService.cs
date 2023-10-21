@@ -17,7 +17,6 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         public async Task<IEnumerable<User>> GetAll()
         {
             return await _context.Usuario
-                .Include(u => u.Localidade)
                 .ToListAsync();
         }
 
@@ -26,7 +25,6 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
             try
             {
                 var Usuario = await _context.Usuario
-                    .Include(u => u.Localidade)
                     .FirstAsync(u => u.Id == id);
 
                 Usuario.Senha = "";
@@ -45,7 +43,6 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
             try
             {
                 var BuscaUsuario = await _context.Usuario
-                    .Include(u => u.Localidade)
                     .Where(u => u.Usuario == usuario)
                     .FirstOrDefaultAsync();
 

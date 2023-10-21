@@ -19,7 +19,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
                 var encontrarLocalidade = await _context.Localidades
                     .FindAsync(localidade.Id);
 
-                if (encontrarLocalidade == null)
+                if (encontrarLocalidade is null)
                     return null;
 
                 localidade = encontrarLocalidade;
@@ -89,6 +89,13 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
             return localidade;
         }
 
+        public async Task<IEnumerable<Localidade>> GetByCityCode(string citycode)
+        {
+            var localidade = await _context.Localidades
+                .Where(l => l.CityCode.Contains(citycode)).ToListAsync();
+
+            return localidade;
+        }
     }
 
     }

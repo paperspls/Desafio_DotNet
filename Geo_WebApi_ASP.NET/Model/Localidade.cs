@@ -5,17 +5,21 @@ namespace Geo_WebApi_ASP.NET.Model
 {
     public class Localidade
     {
+
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
         [Column(TypeName = "varchar")]
-        [StringLength(2)]
-        public string State { get; set; }
+        [StringLength(15)]
+        public string CityCode { get; set; } = string.Empty;
+
+        [Column(TypeName = "varchar")]
+        [StringLength(15)]
+        public string State { get; set; } = string.Empty;
 
         [Column(TypeName = "nvarchar")]
         [StringLength(80)]
-        public string City { get; set; }
-
-        public virtual User? Usuario { get; set; }
+        public string City { get; set; } = string.Empty;
     }
 }
