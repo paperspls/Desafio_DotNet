@@ -1,4 +1,6 @@
 using Geo_WebApi_ASP.NET.Data;
+using Geo_WebApi_ASP.NET.Security.Implements;
+using Geo_WebApi_ASP.NET.Security;
 using Geo_WebApi_ASP.NET.Service;
 using Geo_WebApi_ASP.NET.Service.Implements;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +37,13 @@ namespace Geo_WebApi_ASP.NET
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            //validação das entidades
+            builder.Services.AddTransient<IAuthService, AuthService>();
+            //validação das interfaces
+            builder.Services.AddScoped<IUserService, UserService>();
+
+
 
             // Configuração do CORS
             builder.Services.AddCors(options => {

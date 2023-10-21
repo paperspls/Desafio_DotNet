@@ -10,10 +10,19 @@ namespace Geo_WebApi_ASP.NET.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Localidade>().ToTable("IBGE");
+            modelBuilder.Entity<User>().ToTable("Usuario");
+        
+       
+            // Relacionamento Localidade -> User
+            modelBuilder.Entity<Localidade>()
+                    .HasOne(l => l.Usuario)
+                    .WithMany(u => u.Localidade)
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade);
         }
 
-        public DbSet<Localidade> Localidades { get; set; } = null!;
-
+    public DbSet<Localidade> Localidades { get; set; } = null!;
+        public DbSet<User> Usuario { get; set; } = null!;
 
     }
 }

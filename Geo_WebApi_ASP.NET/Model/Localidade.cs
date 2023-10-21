@@ -8,12 +8,14 @@ namespace Geo_WebApi_ASP.NET.Model
         [Key]
         public long Id { get; set; }
 
-        [Column(TypeName = "char")]
+        [Column(TypeName = "varchar")]
         [StringLength(2)]
         public string State { get; set; }
 
         [Column(TypeName = "nvarchar")]
         [StringLength(80)]
         public string City { get; set; }
+
+        public virtual User? Usuario { get; set; }
     }
 }
