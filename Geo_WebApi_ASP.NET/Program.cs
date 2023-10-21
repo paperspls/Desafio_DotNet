@@ -1,5 +1,6 @@
-
 using Geo_WebApi_ASP.NET.Data;
+using Geo_WebApi_ASP.NET.Service;
+using Geo_WebApi_ASP.NET.Service.Implements;
 using Microsoft.EntityFrameworkCore;
 
 namespace Geo_WebApi_ASP.NET

@@ -1,12 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Geo_WebApi_ASP.NET.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Geo_WebApi_ASP.NET.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-            { 
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-            }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Localidade>().ToTable("tb_ibge");
+        }
+
+        public DbSet<Localidade> Localidades { get; set; } = null!;
+
+
     }
 }
+
