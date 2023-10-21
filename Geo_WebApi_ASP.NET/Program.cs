@@ -15,6 +15,13 @@ namespace Geo_WebApi_ASP.NET
 
             builder.Services.AddControllers();
 
+            builder.Services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
+
             // Conexão com o Banco de dados
             var connectionString = builder.Configuration.
                     GetConnectionString("DefaultConnection");
@@ -22,6 +29,8 @@ namespace Geo_WebApi_ASP.NET
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString)
             );
+
+            builder.Services.AddScoped<ILocalidadeService, LocalidadeService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

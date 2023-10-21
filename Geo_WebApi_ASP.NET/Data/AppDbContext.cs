@@ -9,7 +9,7 @@ namespace Geo_WebApi_ASP.NET.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Localidade>().ToTable("tb_ibge");
+            modelBuilder.Entity<Localidade>().ToTable("IBGE");
         }
 
         public DbSet<Localidade> Localidades { get; set; } = null!;
