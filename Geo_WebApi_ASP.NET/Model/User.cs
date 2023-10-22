@@ -25,5 +25,8 @@ namespace Geo_WebApi_ASP.NET.Model
         [Column(TypeName = "varchar")]
         [StringLength(5000)]
         public string? Foto { get; set; } = string.Empty;
+
+        [InverseProperty("Usuario")]
+        public virtual ICollection<Localidade>? Localidade { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         public async Task<IEnumerable<Localidade>> GetAll()
         {
             return await _context.Localidades
+                .Include(l => l.Usuario)
                 .ToListAsync();
         }
         public async Task<Localidade?> GetById(long id)
@@ -46,6 +47,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
             try
             {
                 var localidade = await _context.Localidades
+                    .Include(l => l.Usuario)
                     .FirstAsync(i => i.Id == id);
 
                 return localidade;
@@ -77,14 +79,18 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         public async Task<IEnumerable<Localidade>> GetByCity(string city)
         {
             var localidade = await _context.Localidades
-                .Where(l => l.City.Contains(city)).ToListAsync();
+                .Where(l => l.City.Contains(city))
+                .Include(l => l.Usuario)
+                .ToListAsync();
 
             return localidade;
         }
         public async Task<IEnumerable<Localidade>> GetByState(string state)
         {
             var localidade = await _context.Localidades
-                .Where(l => l.State.Contains(state)).ToListAsync();
+                .Where(l => l.State.Contains(state))
+                .Include(l => l.Usuario)
+                .ToListAsync();
 
             return localidade;
         }
@@ -92,7 +98,9 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         public async Task<IEnumerable<Localidade>> GetByCityCode(string citycode)
         {
             var localidade = await _context.Localidades
-                .Where(l => l.CityCode.Contains(citycode)).ToListAsync();
+                .Where(l => l.CityCode.Contains(citycode))
+                .Include(l => l.Usuario)
+                .ToListAsync();
 
             return localidade;
         }

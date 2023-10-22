@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using Geo_WebApi_ASP.NET.Model;
 using Geo_WebApi_ASP.NET.Validator;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Geo_WebApi_ASP.NET
 {
@@ -39,15 +42,36 @@ namespace Geo_WebApi_ASP.NET
             builder.Services.AddTransient<IValidator<Localidade>, LocalidadeValidator>();
             builder.Services.AddTransient<IValidator<User>, UserValidator>();
 
+
             // Registrar as Classes de Serviço (Service)
             builder.Services.AddScoped<ILocalidadeService, LocalidadeService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
 
+            // Adicionar a Validação do Token JWT
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                var Key = Encoding.UTF8.GetBytes(Settings.Secret);
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Key)
+                };
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+             
             // Configuração do CORS
             builder.Services.AddCors(options => {
                 options.AddPolicy(name: "MyPolicy",
