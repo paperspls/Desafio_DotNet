@@ -10,6 +10,8 @@ using Geo_WebApi_ASP.NET.Validator;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Geo_WebApi_ASP.NET.Configuration;
+using Microsoft.OpenApi.Models;
 
 namespace Geo_WebApi_ASP.NET
 {
@@ -31,12 +33,31 @@ namespace Geo_WebApi_ASP.NET
                 });
 
             // Conexão com o Banco de dados
-            var connectionString = builder.Configuration.
-                    GetConnectionString("DefaultConnection");
+            if (builder.Configuration["Environment:Start"] == "PROD")
+            {
+                // Conexão com o PostgresSQL - Nuvem
 
-            builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString)
-            );
+                builder.Configuration
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("secrets.json");
+
+                var connectionString = builder.Configuration
+               .GetConnectionString("ProdConnection");
+
+                builder.Services.AddDbContext<AppDbContext>(options =>
+                    options.UseNpgsql(connectionString)
+                );
+            }
+            else
+            {
+                // Conexão com o SQL Server - Localhost
+                var connectionString = builder.Configuration
+                .GetConnectionString("DefaultConnection");
+
+                builder.Services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlServer(connectionString)
+                );
+            }
 
             // Registrar a Validação das Entidades
             builder.Services.AddTransient<IValidator<Localidade>, LocalidadeValidator>();
@@ -70,8 +91,46 @@ namespace Geo_WebApi_ASP.NET
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-             
+            //Registrar o Swagger
+            builder.Services.AddSwaggerGen(options =>
+            {
+
+                //Personalizar a Págna inicial do Swagger
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Projeto GEO IBGE - Balta",
+                    Description = "Projeto GEO IBGE - Balta - ASP.NET Core 7 - Entity Framework",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Equipe 32 (Rhyan Magalhães, Julia Alexandrino, Victor Paliari)",
+                        Email = "",
+                        Url = new Uri("https://github.com/paperspls/Desafio_DotNet")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Github",
+                        Url = new Uri("https://github.com/paperspls/Desafio_DotNet")
+                    }
+
+                });
+
+                //Adicionar a Segurança no Swagger
+                options.AddSecurityDefinition("JWT", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Digite um Token JWT válido!",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+
+                //Adicionar a configuração visual da Segurança no Swagger
+                options.OperationFilter<AuthResponsesOperationFilter>();
+
+            });
+
             // Configuração do CORS
             builder.Services.AddCors(options => {
                 options.AddPolicy(name: "MyPolicy",
@@ -94,14 +153,26 @@ namespace Geo_WebApi_ASP.NET
 
             app.UseDeveloperExceptionPage();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            // Habilitar o Swagger
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI();
+
+
+            // Swagger Como Página Inicial - Nuvem
+            if (app.Environment.IsProduction())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Projeto Balta - v1");
+                    options.RoutePrefix = string.Empty;
+                });
             }
 
             app.UseCors("MyPolicy");
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

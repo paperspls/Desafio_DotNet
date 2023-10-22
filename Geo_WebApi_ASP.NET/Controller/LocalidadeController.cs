@@ -15,6 +15,14 @@ namespace Geo_WebApi_ASP.NET.Controller
         private readonly ILocalidadeService _localidadeService;
         private readonly IValidator<Localidade> _localidadeValidator;
 
+        public LocalidadeController(
+            ILocalidadeService localidadeService,
+            IValidator<Localidade> localidadeValidator
+            )
+        {
+            _localidadeService = localidadeService;
+            _localidadeValidator = localidadeValidator;
+        }
 
         [HttpGet]
         public async Task<ActionResult> GetAll()
@@ -88,16 +96,14 @@ namespace Geo_WebApi_ASP.NET.Controller
             var validarLocalidade = await _localidadeValidator.ValidateAsync(localidade);
 
             if (!validarLocalidade.IsValid)
-            {
                 return StatusCode(StatusCodes.Status400BadRequest, validarLocalidade);
-            }
+            
 
             var Resposta = await _localidadeService.Create(localidade);
 
             if (Resposta is null)
-            {
                 return BadRequest("Não foi possível cadastrar essa localidade!");
-            }
+            
 
             return CreatedAtAction(nameof(GetById), new { id = localidade.Id }, localidade);
         }

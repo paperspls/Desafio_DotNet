@@ -17,7 +17,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         public async Task<IEnumerable<User>> GetAll()
         {
             return await _context.Usuario
-                .Include(u => u.Localidade)
+
                 .ToListAsync();
         }
 
@@ -26,7 +26,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
             try
             {
                 var Usuario = await _context.Usuario
-                    .Include(u => u.Localidade)
+             
                     .FirstAsync(u => u.Id == id);
 
                 Usuario.Senha = "";
@@ -46,7 +46,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
             {
                 var BuscaUsuario = await _context.Usuario
                     .Where(u => u.Usuario == usuario)
-                    .Include(u => u.Localidade)
+     
                     .FirstOrDefaultAsync();
 
                 return BuscaUsuario;
@@ -64,9 +64,6 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
             if (BuscaUsuario is not null)
                 return null;
 
-            if (usuario.Foto is null || usuario.Foto == "")
-                usuario.Foto = "https://i.imgur.com/I8MfmC8.png";
-
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha, workFactor: 10);
 
             _context.Usuario.Add(usuario);
@@ -82,9 +79,6 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
 
             if (UsuarioUpdate is null)
                 return null;
-
-            if (usuario.Foto is null || usuario.Foto == "")
-                usuario.Foto = "https://i.imgur.com/I8MfmC8.png";
 
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(usuario.Senha, workFactor: 10);
 

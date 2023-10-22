@@ -18,8 +18,6 @@ namespace Geo_WebApi_ASP.NET.Security.Implements
 
         public async Task<UserLogin?> Autenticar(UserLogin userLogin)
         {
-            string FotoDefault = "https://i.imgur.com/I8MfmC8.png";
-
             if (userLogin is null || string.IsNullOrEmpty(userLogin.Usuario) || string.IsNullOrEmpty(userLogin.Senha))
                 return null;
 
@@ -47,8 +45,6 @@ namespace Geo_WebApi_ASP.NET.Security.Implements
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             userLogin.Id = BuscaUsuario.Id;
-            userLogin.Nome = BuscaUsuario.Nome;
-            userLogin.Foto = BuscaUsuario.Foto is null ? FotoDefault : BuscaUsuario.Foto;
             userLogin.Token = "Bearer " + tokenHandler.WriteToken(token).ToString();
             userLogin.Senha = "";
 

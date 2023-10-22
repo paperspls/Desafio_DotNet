@@ -21,7 +21,5 @@ namespace Geo_WebApi_ASP.NET.Model
         [Column(TypeName = "nvarchar")]
         [StringLength(80)]
         public string City { get; set; } = string.Empty;
-
-        public virtual User? Usuario { get; set; }
     }
 }

@@ -14,17 +14,6 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         }
         public async Task<Localidade?> Create(Localidade localidade)
         {
-            if (localidade is not null)
-            {
-                var encontrarLocalidade = await _context.Localidades
-                    .FindAsync(localidade.Id);
-
-                if (encontrarLocalidade is null)
-                    return null;
-
-                localidade = encontrarLocalidade;
-            }
-
             await _context.Localidades.AddAsync(localidade);
             await _context.SaveChangesAsync();
 
@@ -39,7 +28,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         public async Task<IEnumerable<Localidade>> GetAll()
         {
             return await _context.Localidades
-                .Include(l => l.Usuario)
+             
                 .ToListAsync();
         }
         public async Task<Localidade?> GetById(long id)
@@ -47,7 +36,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
             try
             {
                 var localidade = await _context.Localidades
-                    .Include(l => l.Usuario)
+                 
                     .FirstAsync(i => i.Id == id);
 
                 return localidade;
@@ -80,7 +69,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         {
             var localidade = await _context.Localidades
                 .Where(l => l.City.Contains(city))
-                .Include(l => l.Usuario)
+         
                 .ToListAsync();
 
             return localidade;
@@ -89,7 +78,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         {
             var localidade = await _context.Localidades
                 .Where(l => l.State.Contains(state))
-                .Include(l => l.Usuario)
+            
                 .ToListAsync();
 
             return localidade;
@@ -99,7 +88,7 @@ namespace Geo_WebApi_ASP.NET.Service.Implements
         {
             var localidade = await _context.Localidades
                 .Where(l => l.CityCode.Contains(citycode))
-                .Include(l => l.Usuario)
+           
                 .ToListAsync();
 
             return localidade;
