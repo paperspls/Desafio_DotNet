@@ -1,11 +1,10 @@
-# API de Localidades do Brasil
+# API de Localidades do Brasil 🗺️
 
-Este projeto é parte do Desafio do Balta.io de Desenvolvimento Nível Júnior e tem como objetivo criar uma API de localidades para consulta de cidades e estados no Brasil, usando dados do IBGE.
+Este projeto é parte do Desafio do Balta.io, de Desenvolvimento nível Júnior e tem como objetivo criar uma API de localidades para consulta de cidades e estados no Brasil, usando dados do IBGE.
 
 <p align="center">
 <img height="550em" src="https://github.com/paperspls/Desafio_DotNet/blob/main/brasil%20(1).png">
-   &nbsp; &nbsp; &nbsp; &nbsp;
-   <br>
+   &nbsp; &nbsp; &nbsp;
 </p>
 
 ## Funcionalidades
