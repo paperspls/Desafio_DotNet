@@ -32,7 +32,7 @@ namespace Geo_WebApi_ASP.NET
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
 
-            // Conexão com o Banco de dados
+            // Conexão com o Banco
             if (builder.Configuration["Environment:Start"] == "PROD")
             {
                 // Conexão com o PostgresSQL - Nuvem
