@@ -38,6 +38,12 @@ A documentação da API está disponível via Swagger para facilitar a utilizaç
 
 Se desejar contribuir para este projeto, por favor, siga as melhores práticas e padrões de codificação. Certifique-se de abrir issues para discutir novos recursos ou correções de bugs antes de enviar pull requests.
 
+## Colaboradores
+
+- [Julia Alexandrino](https://github.com/juhalexandrino)
+- [Rhyan Magalhães](https://github.com/paperspls)
+- [Victor Paliari](https://github.com/victorpaliari)
+
 ## Licença
 
 Este projeto está licenciado sob a [Licença MIT](LICENSE.md).
