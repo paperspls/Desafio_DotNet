@@ -18,7 +18,7 @@ namespace Geo_WebApi_ASP.NET.Model
         [StringLength(15)]
         public string State { get; set; } = string.Empty;
 
-        [Column(TypeName = "nvarchar")]
+        [Column(TypeName = "varchar")]
         [StringLength(80)]
         public string City { get; set; } = string.Empty;
     }
