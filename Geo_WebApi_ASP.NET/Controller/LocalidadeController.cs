@@ -63,7 +63,7 @@ namespace Geo_WebApi_ASP.NET.Controller
         [HttpGet("estado/{state}")]
         public async Task<ActionResult> GetByState(string state)
         {
-            return Ok(await _localidadeService.GetByCity(state));
+            return Ok(await _localidadeService.GetByState(state));
         }
 
         [HttpPut]
